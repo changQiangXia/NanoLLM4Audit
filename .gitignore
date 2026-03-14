@@ -3,11 +3,15 @@ __pycache__/
 .pytest_cache/
 .venv/
 .mypy_cache/
-outputs/charts/
 outputs/*.csv
 outputs/*.json
 outputs/*.md
 outputs/*.html
 outputs/*.txt
 !outputs/.gitkeep
+!outputs/report.md
+!outputs/dashboard.html
+!outputs/tree_rules.txt
+!outputs/charts/
+!outputs/charts/*.png
 data/demo_logs.csv

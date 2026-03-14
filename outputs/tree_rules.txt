@@ -1,0 +1,10 @@
+|--- rule_score <= 0.29
+|   |--- off_hours_score <= 0.35
+|   |   |--- class: 0
+|   |--- off_hours_score >  0.35
+|   |   |--- class: 0
+|--- rule_score >  0.29
+|   |--- off_hours_score <= 0.55
+|   |   |--- class: 0
+|   |--- off_hours_score >  0.55
+|   |   |--- class: 1

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>NanoLLM4Audit Dashboard</title>
+  <style>
+    body {
+      font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
+      margin: 0;
+      background: #f8fafc;
+      color: #0f172a;
+    }
+    header {
+      background: #0f172a;
+      color: white;
+      padding: 24px 32px;
+    }
+    main {
+      padding: 24px 32px 40px;
+    }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .card {
+      background: white;
+      border-radius: 14px;
+      padding: 16px;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+    }
+    .card-title {
+      font-size: 13px;
+      color: #475569;
+      margin-bottom: 6px;
+    }
+    .card-value {
+      font-size: 28px;
+      font-weight: 700;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      margin-bottom: 24px;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+    }
+    th, td {
+      padding: 12px 14px;
+      border-bottom: 1px solid #e2e8f0;
+      text-align: left;
+    }
+    th {
+      background: #e2e8f0;
+    }
+    .chart-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 16px;
+    }
+    .chart-block {
+      background: white;
+      border-radius: 14px;
+      padding: 16px;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+    }
+    .chart-block img {
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid #e2e8f0;
+    }
+    .chart-desc {
+      color: #475569;
+      line-height: 1.6;
+      margin: 0 0 12px;
+      font-size: 14px;
+    }
+    .chart-takeaway {
+      color: #0f172a;
+      line-height: 1.6;
+      margin: 0 0 12px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>NanoLLM4Audit 结果看板</h1>
+    <p>聚焦日志审计主链路：数据、规则、行为、融合、图表。</p>
+  </header>
+  <main>
+    <section class="cards">
+      <div class='card'><div class='card-title'>事件总量</div><div class='card-value'>334</div></div>
+<div class='card'><div class='card-title'>高风险事件</div><div class='card-value'>54</div></div>
+<div class='card'><div class='card-title'>恶意样本</div><div class='card-value'>54</div></div>
+<div class='card'><div class='card-title'>Precision</div><div class='card-value'>1.000</div></div>
+<div class='card'><div class='card-title'>Recall</div><div class='card-value'>1.000</div></div>
+<div class='card'><div class='card-title'>F1</div><div class='card-value'>1.000</div></div>
+<div class='card'><div class='card-title'>Tree F1</div><div class='card-value'>1.000</div></div>
+<div class='card'><div class='card-title'>Tree Depth</div><div class='card-value'>2</div></div>
+    </section>
+    <section>
+      <h2>实验结果</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>方案</th>
+            <th>Precision</th>
+            <th>Recall</th>
+            <th>F1</th>
+            <th>误报率</th>
+            <th>入选事件</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>rule_only</td><td>1.000</td><td>0.500</td><td>0.667</td><td>0.000</td><td>8</td></tr>
+<tr><td>behavior_only</td><td>0.500</td><td>1.000</td><td>0.667</td><td>0.188</td><td>32</td></tr>
+<tr><td>fusion_balanced</td><td>1.000</td><td>1.000</td><td>1.000</td><td>0.000</td><td>16</td></tr>
+<tr><td>fusion_sensitive</td><td>0.889</td><td>1.000</td><td>0.941</td><td>0.024</td><td>18</td></tr>
+<tr><td>fusion_precise</td><td>1.000</td><td>0.500</td><td>0.667</td><td>0.000</td><td>8</td></tr>
+<tr><td>decision_tree</td><td>1.000</td><td>1.000</td><td>1.000</td><td>0.000</td><td>16</td></tr>
+<tr><td>fusion_with_tree</td><td>1.000</td><td>1.000</td><td>1.000</td><td>0.000</td><td>16</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="chart-grid">
+      <section class='chart-block'><h3>图 1：日志来源与标签分布</h3><p class='chart-desc'>用于观察不同日志来源的总体规模，以及恶意事件主要集中在哪些来源类型中。</p><p class='chart-takeaway'>当前实验结论：来源分布存在明显聚集，高风险来源适合优先进入复核视角。</p><img src='charts/01_source_overview.png' alt='图 1：日志来源与标签分布'></section>
+<section class='chart-block'><h3>图 2：风险分数分布</h3><p class='chart-desc'>用于观察良性事件和恶意事件在风险分数上的分离程度，虚线右侧为更值得优先复核的区域。</p><p class='chart-takeaway'>当前实验结论：风险分数呈现良性与恶意分层，阈值右侧区域具备更高处置优先级。</p><img src='charts/02_risk_distribution.png' alt='图 2：风险分数分布'></section>
+<section class='chart-block'><h3>图 3：规则命中次数</h3><p class='chart-desc'>用于观察哪些规则命中最频繁，条形越长，说明该类攻击痕迹在数据中越突出。</p><p class='chart-takeaway'>当前实验结论：高频规则命中区域可直接对应重点攻击痕迹。</p><img src='charts/03_rule_hits.png' alt='图 3：规则命中次数'></section>
+<section class='chart-block'><h3>图 4：主机与来源风险热力图</h3><p class='chart-desc'>用于观察哪些主机在特定日志来源上呈现较高平均风险，颜色越暖代表关注优先级越高。</p><p class='chart-takeaway'>当前实验结论：高热区域主机更适合作为排查起点。</p><img src='charts/04_host_heatmap.png' alt='图 4：主机与来源风险热力图'></section>
+<section class='chart-block'><h3>图 5：时间线</h3><p class='chart-desc'>用于观察风险事件在时间维度上的聚集情况，峰值越明显，越容易定位集中发生的攻击窗口。</p><p class='chart-takeaway'>当前实验结论：时间峰值对应的窗口适合优先回看原始日志。</p><img src='charts/05_attack_timeline.png' alt='图 5：时间线'></section>
+<section class='chart-block'><h3>图 6：攻击阶段覆盖情况</h3><p class='chart-desc'>用于比较各攻击阶段的真实恶意事件量与检测命中量，两组柱形越接近，说明覆盖越完整。</p><p class='chart-takeaway'>当前实验结论：阶段覆盖图可直接用于检查检测链路是否存在缺口。</p><img src='charts/06_stage_coverage.png' alt='图 6：攻击阶段覆盖情况'></section>
+<section class='chart-block'><h3>图 7：融合方案混淆矩阵</h3><p class='chart-desc'>用于观察分类结果的四种情况，左上和右下数值越高，说明整体判定越稳定。</p><p class='chart-takeaway'>当前实验结论：当前主方案的误报率为 0.000，分类结果整体稳定。</p><img src='charts/07_confusion_matrix.png' alt='图 7：融合方案混淆矩阵'></section>
+<section class='chart-block'><h3>图 8：实验方案对比</h3><p class='chart-desc'>用于横向比较不同方案的 Precision、Recall 和 F1，便于快速选择更均衡的配置。</p><p class='chart-takeaway'>当前实验结论：当前最优方案为 `fusion_balanced`，F1=1.000；次优方案为 `decision_tree`，F1=1.000。</p><img src='charts/08_experiment_comparison.png' alt='图 8：实验方案对比'></section>
+<section class='chart-block'><h3>图 9：筛选漏斗</h3><p class='chart-desc'>用于展示日志从总量到规则命中、行为增强、高风险候选、真实命中的逐步收缩过程。</p><p class='chart-takeaway'>当前实验结论：漏斗收缩过程清晰，便于理解从海量日志到真实命中的筛选路径。</p><img src='charts/09_funnel.png' alt='图 9：筛选漏斗'></section>
+<section class='chart-block'><h3>图 10：决策树特征重要性</h3><p class='chart-desc'>用于观察决策树更依赖哪些输入特征，数值越大，说明该特征对模型判断的贡献越明显。</p><p class='chart-takeaway'>当前实验结论：决策树特征重要性能够直接解释模型依赖的核心判断依据。</p><img src='charts/10_tree_feature_importance.png' alt='图 10：决策树特征重要性'></section>
+<section class='chart-block'><h3>图 11：决策树结构</h3><p class='chart-desc'>用于直接查看模型的判定路径，越靠近根节点的分裂条件，对结果的影响越显著。</p><p class='chart-takeaway'>当前实验结论：当前树深度为 2，模型保持浅层结构。</p><img src='charts/11_tree_structure.png' alt='图 11：决策树结构'></section>
+<section class='chart-block'><h3>图 12：决策树分数分布</h3><p class='chart-desc'>用于观察决策树输出概率对良性与恶意事件的区分程度，重叠越少，区分效果越直观。</p><p class='chart-takeaway'>当前实验结论：树分数分布呈现分层时，模型的概率输出更容易解释。</p><img src='charts/12_tree_score_distribution.png' alt='图 12：决策树分数分布'></section>
+    </section>
+  </main>
+</body>
+</html>
