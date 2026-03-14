@@ -15,3 +15,5 @@ outputs/*.txt
 !outputs/charts/
 !outputs/charts/*.png
 data/demo_logs.csv
+docs/architecture.md
+docs/review_rounds.md
