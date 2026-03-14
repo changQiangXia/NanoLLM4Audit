@@ -1,0 +1,97 @@
+project_name = "NanoLLM4Audit"
+random_seed = 7
+
+[paths]
+data_file = "data/demo_logs.csv"
+outputs_dir = "outputs"
+charts_dir = "outputs/charts"
+scored_file = "outputs/events_scored.csv"
+metrics_file = "outputs/metrics.json"
+experiments_file = "outputs/experiments.csv"
+report_file = "outputs/report.md"
+dashboard_file = "outputs/dashboard.html"
+tree_metrics_file = "outputs/tree_metrics.json"
+tree_rules_file = "outputs/tree_rules.txt"
+
+[dataset]
+benign_events = 280
+malicious_events = 54
+
+[thresholds]
+candidate = 0.62
+behavior_high = 0.58
+
+[weights]
+rule = 0.70
+behavior = 0.30
+
+[behavior]
+sensitive_accounts = ["ops-admin", "finance-admin", "svc-backup", "domain-admin"]
+suspicious_event_types = [
+  "powershell_encoded",
+  "credential_dump",
+  "scheduled_task_create",
+  "remote_script",
+  "remote_exec",
+  "archive_and_upload",
+]
+
+[decision_tree]
+test_size = 0.30
+max_depth = 4
+min_samples_leaf = 5
+threshold = 0.50
+class_weight_balanced = true
+
+[[rules]]
+id = "R001_MIMIKATZ"
+pattern = "mimikatz|sekurlsa::logonpasswords|lsass"
+score = 0.99
+description = "凭据提取相关痕迹"
+
+[[rules]]
+id = "R002_POWERSHELL_ENC"
+pattern = "powershell.*-enc"
+score = 0.94
+description = "编码 PowerShell 执行"
+
+[[rules]]
+id = "R003_SCHTASKS"
+pattern = "schtasks.*\\/create"
+score = 0.86
+description = "计划任务落地"
+
+[[rules]]
+id = "R004_LOLBIN_REMOTE"
+pattern = "regsvr32|rundll32|mshta"
+score = 0.84
+description = "LOLBIN 远程加载"
+
+[[rules]]
+id = "R005_LATERAL_MOVE"
+pattern = "wmic.*process call create|psexec|winrm"
+score = 0.89
+description = "横向移动执行"
+
+[[rules]]
+id = "R006_EXFIL"
+pattern = "curl\\.exe -t|7z a|rclone|megasync|upload"
+score = 0.90
+description = "压缩与上传链路"
+
+[[rules]]
+id = "R007_BRUTE_FORCE"
+pattern = "failed logon|authentication failure|4625"
+score = 0.58
+description = "口令尝试密集出现"
+
+[experiments]
+names = [
+  "rule_only",
+  "behavior_only",
+  "fusion_balanced",
+  "fusion_sensitive",
+  "fusion_precise",
+  "decision_tree",
+  "fusion_with_tree",
+]

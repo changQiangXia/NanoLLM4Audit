@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nanoaudit"
+version = "0.1.0"
+description = "A compact and visual log auditing demo project"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "pandas>=2.2.0",
+  "matplotlib>=3.9.0",
+  "numpy>=1.26.0",
+  "scikit-learn>=1.5.0",
+]
+
+[project.scripts]
+nanoaudit = "nanoaudit.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]

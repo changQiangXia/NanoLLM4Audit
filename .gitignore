@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+.mypy_cache/
+outputs/charts/
+outputs/*.csv
+outputs/*.json
+outputs/*.md
+outputs/*.html
+outputs/*.txt
+!outputs/.gitkeep
+data/demo_logs.csv
